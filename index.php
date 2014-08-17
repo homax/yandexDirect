@@ -1,0 +1,1 @@
+<?php$config = require_once('config.php');$app = FrontController::Init($config);$app->run();echo $app->getBody();

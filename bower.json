@@ -1,0 +1,23 @@
+{
+  "name": "direct",
+  "version": "0.0.0",
+  "authors": [
+    "Maxim Kutyrew <homaxweb@mail.ru>"
+  ],
+  "keywords": [
+    ""
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "latest",
+    "html5-boilerplate": "~4.3.0",
+    "bootstrap": "~3.2.0"
+  }
+}
