@@ -25,6 +25,19 @@ class IndexController extends Controller implements IController {
         'StartDate',
     ];
 
+    private $banFields = [
+        'title',
+        'text',
+        'IsActive',
+        'StatusShow',
+        'BannerID',
+        'Domain',
+        'StatusBannerModerate',
+        'StatusPhrasesModerate',
+        'StatusActivating',
+
+    ];
+
     function __construct() {
         $this->db = DB::getInstance();
         $this->fc = FrontController::getInstance();
@@ -80,7 +93,7 @@ class IndexController extends Controller implements IController {
     }
 
 	public function statAction() {
-        $curId = $_POST['id'];
+        $curId = (int)$_POST['id'];
         $curFrom = $_POST['dateFrom'];
         $curTo = $_POST['dateTo'];
         $arrayIds = [];
@@ -135,25 +148,33 @@ class IndexController extends Controller implements IController {
                     return 0;
                 });
             }
-
-            $output = $this->Template('stat.php', array('result' => $itog));
+            $clicks = $this->model->getCampaignsClicks();
+            $output = $this->Template('stat.php', array('result' => $itog, 'clicks' => $clicks));
             $output = $this->Template('empty.php', array('content' => $output));
         }
 		$this->fc->setBody($output);
 	}
 
     public function analyzeAction() {
+        $curId = (int)$_POST['id'];
+        $campaigns =
+            ($curId) ?
+            $this->yd->getCampaign($curId, $this->error) :
+            $this->yd->getCampaignsList();
         $clicks = $this->model->getCampaignsClicks();
-        $campaigns = $this->yd->getCampaignsList();
         $curClicks = [];
         foreach ($campaigns->data as $campaign) {
             $curClicks[$campaign->CampaignID] = $campaign->Clicks;
         }
         foreach($clicks as $key => $value) {
-            if($value > $curClicks[$key])
-                $this->yd->stopCampaign($key);
+            if($value > $curClicks[$key]) {
+                $camp = $this->yd->getCampaign($key);
+                if($camp->data->IsActive == "Yes") {
+                    $this->yd->stopCampaign($key);
+                    echo "<div class='alert alert-success' role='alert'>В ближайшее время кампания $key будет остановлена!</div>";
+                }
+            }
         }
-        //$this->fc->setBody($output);
     }
 
     public function startAction() {
@@ -161,13 +182,35 @@ class IndexController extends Controller implements IController {
         if(count($active->data) > 0) {
             foreach($active->data as $key => $value) {
                 $this->yd->resumeCampaign($value->CampaignID);
-                echo "кампания {$value->CampaignID} запущена";
+                echo "<div class='alert alert-success' role='alert'>В ближайшее время кампания {$value->CampaignID} будет запущена!</div>";
             }
         }
     }
 
     public function testAction() {
         $result = $this->yd->getCampaignsList($this->error);
+        if($this->error) {
+            print_r($result);
+        }else {
+            echo "<pre>";
+            print_r($result);
+            foreach ($result->data as $campaign) {
+                echo $campaign->Name ."(".$campaign->CampaignID.")<br>";
+            }
+            /*$result2 = $this->yd->getBanners(array(66904));
+            var_dump($result2);
+            $res2 = $this->yd->moderateBanners(NULL, array(781073));
+            print_r($res2);*/
+        }
+    }
+
+    public function banAction() {
+        $result = $this->yd->getBanners(array(66903, 66904, 66905), $this->error);
+        $arrays = [];
+        foreach ($result->data as $ban) {
+            $arrays[] = $ban->BannerID;
+        }
+        $result = $this->yd->getBannersStat($arrays, $this->error);
         if($this->error) {
             print_r($result);
         }else {

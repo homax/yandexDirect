@@ -31,7 +31,12 @@
             <a class="navbar-brand" href="#">ЯД</a>
         </div>
 
-        <p class="navbar-text navbar-right">Максим Кутырев</p>
+        <ul class="nav navbar-nav">
+            <li><a href="javascript: void(0);" data-toggle="modal" data-target="#help">Описание</a></li>
+        </ul>
+
+        <p class="navbar-text navbar-right">Максим Кутырев <a href="https://github.com/homaxweb" target="_blank"><img src="/media/images/github.png" width="24" height="24" alt="Github homaxweb"/></a> <a href="http://spb.hh.ru/resume/2cf85ea2ff020adb720039ed1f56496f51786d" target="_blank"><img src="/media/images/hh.png" width="24" height="24" alt="HeadHunter Максим Кутырев"/></a></p>
+
 
         <!-- Collect the nav links, forms, and other content for toggling -->
 
@@ -48,6 +53,22 @@
 <script src="/media/js/jquery-ui.min.js"></script>
 <script src="/media/js/datepicker.ru.js"></script>
 <script src="/media/js/main.js"></script>
+
+<div class="modal fade" id="help" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h2>Описание</h2>
+            </div>
+            <div class="modal-body">
+                <p>При запуске приложения и по нажатию кнопки "Статистика" загружается статистика по всем капаниям, либо по выбранной в фильтре.</p>
+                <p>Анализ кампаний на основе данных, предоставленных условиями задачи, идет по полю "клики", которое подсвечивается желтым или красным цветом фона. При клике на кнопке "Алгоритм" система определяет, в каких кампаниях не выполняются поставленные по определенным параметрам цели. В частности, если действительных кликов было меньше, чем ожидаемых(указано в скобках, и в этом случае эта ячейка имеет красный фон), то такая кампания будет автоматически остановлена.</p>
+                <p>По кнопке активация будут запущены все остановленные кампании.</p>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

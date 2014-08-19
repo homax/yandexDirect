@@ -36,10 +36,10 @@ class Model{
     }
 
     public function getCampaignsClicks(){
-        $ids = $this->db->Select("Select id, click_per_day from campaign");
+        $ids = $this->db->Select("Select id, click_per_week from campaign");
         $arrayClicks = [];
         foreach ($ids as $id) {
-            $arrayClicks[(int)$id['id']] = (int)$id['click_per_day'];
+            $arrayClicks[(int)$id['id']] = (int)$id['click_per_week'];
         }
         return $arrayClicks;
     }

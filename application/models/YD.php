@@ -2,6 +2,9 @@
 
 
 class YD {
+
+    const CACHE_STAT_FILE = 'cacheStat.php';
+
     private static $_instance;
     private $config;
 
@@ -18,9 +21,25 @@ class YD {
         $method = 'GetSummaryStat';
         $params = array(
             'CampaignIDS' => $arrayIds,
-            'StartDate' => ($curFrom) ? $curFrom : date('Y-m-d'),
+            'StartDate' => ($curFrom) ? $curFrom : '2014-05-14',
             'EndDate' => ($curTo) ? $curTo : date('Y-m-d'),
         );
+        /*if(file_exists(self::CACHE_STAT_FILE)) {
+            if((filemtime(self::CACHE_STAT_FILE) + 12*60*60 ) <= time() ) {
+                $arr = $this->requestApi($method, $params, $error);
+                $str = serialize($arr);
+                file_put_contents(self::CACHE_STAT_FILE, $str);
+                return $arr;
+            }
+            $str = file(self::CACHE_STAT_FILE);
+            $arr = unserialize($str[0]);
+            return $arr;
+        }else{
+            $arr = $this->requestApi($method, $params, $error);
+            $str = serialize($arr);
+            file_put_contents(self::CACHE_STAT_FILE, $str);
+            return $arr;
+        }*/
         return $this->requestApi($method, $params, $error);
     }
 
@@ -37,6 +56,28 @@ class YD {
                 'IsActive' => array('No')
             )
         );
+        return $this->requestApi($method, $params, $error);
+    }
+
+    public function getCampaign($id, &$error = Null){
+        $method = 'GetCampaignParams';
+        $params = array(
+            'CampaignID' => (int)$id
+        );
+        return $this->requestApi($method, $params, $error);
+    }
+
+    public function getBanners(array $banners,&$error = Null){
+        $method = 'GetBanners';
+        $params = array(
+            'CampaignIDS' => $banners,
+        );
+        return $this->requestApi($method, $params, $error);
+    }
+
+    public function getBannersStat($bannersId, &$error = Null){
+        $method = 'GetBannerPhrases';
+        $params = $bannersId;
         return $this->requestApi($method, $params, $error);
     }
 
@@ -86,14 +127,6 @@ class YD {
         $params = array(
             /*'CampaignID' => $id,*/
             'BannerIDS' => array(781072)
-        );
-        return $this->requestApi($method, $params);
-    }
-
-    public function getBanners($id, $ids = array()) {
-        $method = 'GetBanners';
-        $params = array(
-            'CampaignIDS' => $id,
         );
         return $this->requestApi($method, $params);
     }

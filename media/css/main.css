@@ -4,3 +4,6 @@ th, td {
 .main-container {
     padding-top: 70px;
 }
+.question {
+    cursor: help;
+}

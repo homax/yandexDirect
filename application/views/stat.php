@@ -18,7 +18,7 @@ $arr =  array(
     "Login" =>  "",
     "Name" =>  "Название",
     "StartDate" =>  "Дата запуска",
-    "Sum" =>  "",
+    "Sum" =>  "Начальная сумма",
     "Rest" =>  "Остаток",
     "SumAvailableForTransfer" =>  "",
     "Shows" =>  "Показы",
@@ -32,24 +32,31 @@ $arr =  array(
     "ManagerName" =>  "",
     "AgencyName" =>  ""
 );
-echo "<table>";
+echo "<table class='table'>";
 echo "<thead>";
 foreach ($result as $val) {
     foreach ($val as $key => $value) {
         if(array_key_exists($key, $arr) and (!empty($arr[$key])))
             echo "<th><small>$arr[$key]</small></th>";
         else
-            echo "<th>$key</th>";
+            echo "<th><small>$key</small></th>";
     }
     break;
 }
 echo "</thead>";
-foreach ($result as $row) {
-    echo "<tr>";
-    foreach ($row as $field) {
-        echo "<td>";
-        echo $field;
-        echo "</td>";
+foreach ($result as $campId=>$row) {
+    echo "<tr class='info'>";
+    foreach ($row as $key=>$field) {
+        if($key == 'Clicks') {
+            $class = ($field >= $clicks[$campId]) ? "warning" : "danger";
+            echo "<td class='$class'>";
+            echo $field . " (" . $clicks[$campId] . ")";
+            echo "</td>";
+        }else{
+            echo "<td>";
+            echo $field;
+            echo "</td>";
+        }
     }
     echo "</tr>";
 }
