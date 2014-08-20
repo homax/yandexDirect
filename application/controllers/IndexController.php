@@ -163,15 +163,20 @@ class IndexController extends Controller implements IController {
             $this->yd->getCampaignsList();
         $clicks = $this->model->getCampaignsClicks();
         $curClicks = [];
-        foreach ($campaigns->data as $campaign) {
-            $curClicks[$campaign->CampaignID] = $campaign->Clicks;
+        if(!$curId) {
+            foreach ($campaigns->data as $campaign) {
+                $curClicks[$campaign->CampaignID] = $campaign->Clicks;
+            }
+        }else{
+            $curClicks[$campaigns->data->CampaignID] = $campaigns->data->Clicks;
         }
-        foreach($clicks as $key => $value) {
-            if($value > $curClicks[$key]) {
+        foreach($curClicks as $key => $value) {
+            if($clicks[$key] > $value) {
                 $camp = $this->yd->getCampaign($key);
                 if($camp->data->IsActive == "Yes") {
                     $this->yd->stopCampaign($key);
                     echo "<div class='alert alert-success' role='alert'>В ближайшее время кампания $key будет остановлена!</div>";
+                    $tr = 0;
                 }
             }
         }

@@ -35,7 +35,7 @@
             <li><a href="javascript: void(0);" data-toggle="modal" data-target="#help">Описание</a></li>
         </ul>
 
-        <p class="navbar-text navbar-right">Максим Кутырев <a href="https://github.com/homaxweb" target="_blank"><img src="/media/images/github.png" width="24" height="24" alt="Github homaxweb"/></a> <a href="http://spb.hh.ru/resume/2cf85ea2ff020adb720039ed1f56496f51786d" target="_blank"><img src="/media/images/hh.png" width="24" height="24" alt="HeadHunter Максим Кутырев"/></a></p>
+        <p class="navbar-text navbar-right">Максим Кутырев <a href="https://github.com/homaxweb/yandexDirect" target="_blank"><img src="/media/images/github.png" width="24" height="24" alt="Github homaxweb"/></a> <a href="http://spb.hh.ru/resume/2cf85ea2ff020adb720039ed1f56496f51786d" target="_blank"><img src="/media/images/hh.png" width="24" height="24" alt="HeadHunter Максим Кутырев"/></a></p>
 
 
         <!-- Collect the nav links, forms, and other content for toggling -->

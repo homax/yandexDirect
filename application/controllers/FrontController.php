@@ -20,11 +20,11 @@ class FrontController {
 	private function __construct(){
 		$request = $_SERVER['REQUEST_URI'];
 		$splits = explode('/', trim($request,'/'));
-		//Какой сontroller использовать?
+		//Определяем контроллер
 		$this->_controller = !empty($splits[0]) ? ucfirst($splits[0]).'Controller' : 'IndexController';
-		//Какой action использовать?
+		//Определяем действие
 		$this->_action = !empty($splits[1]) ? $splits[1].'Action' : 'indexAction';
-		//Есть ли параметры и их значения?
+		//Записываем параметры, если они есть
 		if(!empty($splits[2])){
 			$keys = $values = array();
 				for($i=2, $cnt = count($splits); $i<$cnt; $i++){
@@ -39,7 +39,13 @@ class FrontController {
 			$this->_params = array_combine($keys, $values);
 		}
 	}
-	public function run() {
+
+    /**
+     * This function calls current action in current controller
+     *
+     * @throws Exception Throws Exception in case, when action, controller or interface doesn't exist
+     */
+    public function run() {
 		if(class_exists($this->getController())) {
 			$rc = new ReflectionClass($this->getController());
 			if($rc->implementsInterface('IController')) {

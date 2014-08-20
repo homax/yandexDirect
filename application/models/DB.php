@@ -24,6 +24,10 @@ class DB{
         $this->connection->exec('SET NAMES utf8');
     }
 
+    /**
+     * @param string $query
+     * @return array
+     */
     public function Select($query)
     {
         $result = $this->connection->query($query);
@@ -42,12 +46,11 @@ class DB{
         return $arr;
     }
 
-    //
-    // Вставка строки
-    // $table 		- имя таблицы
-    // $object 		- ассоциативный массив с парами вида "имя столбца - значение"
-    // результат	- идентификатор новой строки
-    //
+    /**
+     * @param string $table table name
+     * @param array $object associative array
+     * @return string
+     */
     public function Insert($table, $object)
     {
         $columns = array();
@@ -81,13 +84,12 @@ class DB{
         return $this->connection->lastInsertId();
     }
 
-    //
-    // Изменение строк
-    // $table 		- имя таблицы
-    // $object 		- ассоциативный массив с парами вида "имя столбца - значение"
-    // $where		- условие (часть SQL запроса)
-    // результат	- число измененных строк
-    //
+    /**
+     * @param string $table table name
+     * @param array $object associative array
+     * @param string $where where condition for query
+     * @return int
+     */
     public function Update($table, $object, $where)
     {
         $sets = array();
@@ -119,12 +121,11 @@ class DB{
         return $result->rowCount();
     }
 
-    //
-    // Удаление строк
-    // $table 		- имя таблицы
-    // $where		- условие (часть SQL запроса)
-    // результат	- число удаленных строк
-    //
+    /**
+     * @param string $table table name
+     * @param string $where condition for query
+     * @return int
+     */
     public function Delete($table, $where)
     {
         $query = "DELETE FROM $table WHERE $where";

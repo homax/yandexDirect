@@ -1,11 +1,16 @@
 <?php
 
-
+/**
+ * Class YD works with yandex direct API v.4
+ */
 class YD {
 
     const CACHE_STAT_FILE = 'cacheStat.php';
 
     private static $_instance;
+    /**
+     * @var Configuration of application
+     */
     private $config;
 
     public static function getInstance() {
@@ -17,6 +22,15 @@ class YD {
         $this->config = FrontController::$config;
     }
 
+    /**
+     * GetSummaryStat function
+     *
+     * @param array $arrayIds Array of campaigns IDs
+     * @param string $curFrom Start date
+     * @param string $curTo End date
+     * @param null $error Returns error message
+     * @return mixed|string Returns result of API method
+     */
     public function getStat($arrayIds, $curFrom, $curTo, &$error = Null) {
         $method = 'GetSummaryStat';
         $params = array(
@@ -147,6 +161,12 @@ class YD {
         $this->requestApi($method, $params);
     }
 
+    /**
+     * @param string $method The name of called method
+     * @param mixed $params Params for current method
+     * @param null $error Returns error message
+     * @return mixed|string
+     */
     private function requestApi($method, $params, &$error = Null) {
         //формирование запроса
         $request = array(
@@ -182,6 +202,14 @@ class YD {
         return $result;
     }
 
+    /**
+     * Finance operations
+     *
+     * @param string $method The name of called method
+     * @param mixed $params Params for current method
+     * @param null $error Returns error message
+     * @return mixed|string
+     */
     private function requestFinApi($method, $params, &$error = Null) {
         //формирование запроса
         $request = array(
